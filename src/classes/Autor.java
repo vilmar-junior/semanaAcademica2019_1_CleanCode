@@ -1,4 +1,4 @@
-package entidade;
+package classes;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -14,17 +14,17 @@ public class Autor {
 
 	private String nome;
 	private LocalDate dataNascimento;
-	private Endereco enderecoAutor;
+	private End EnderecoDoAutor;
 
 	public Autor() {
 		super();
 	}
 
-	public Autor(String nome, LocalDate dataNascimento, Endereco enderecoAutor) {
+	public Autor(String nome, LocalDate dataNascimento, End EnderecoAutor) {
 		super();
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
-		this.enderecoAutor = enderecoAutor;
+		this.EnderecoDoAutor = EnderecoAutor;
 	}
 
 	public String getNome() {
@@ -43,15 +43,15 @@ public class Autor {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Endereco getEnderecoAutor() {
-		return enderecoAutor;
+	public End getEnderecoAutor() {
+		return EnderecoDoAutor;
 	}
 
-	public void setEnderecoAutor(Endereco enderecoAutor) {
-		this.enderecoAutor = enderecoAutor;
+	public void setEnderecoAutor(End enderecoAutor) {
+		this.EnderecoDoAutor = enderecoAutor;
 	}
 
-	public int calcularIdade() {
+	private int calcularIdade() {
 		LocalDate dataAtual = LocalDate.now();
 		return Period.between(this.getDataNascimento(), dataAtual).getYears();
 	}

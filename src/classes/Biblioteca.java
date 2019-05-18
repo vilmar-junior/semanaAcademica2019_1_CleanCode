@@ -1,5 +1,7 @@
-package entidade;
+package classes;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 import excecao.BibliotecaException;
@@ -14,17 +16,17 @@ import excecao.BibliotecaException;
 public class Biblioteca {
 
 	private String nome;
-	private ArrayList<Obra> obras;
-	private Endereco enderecoBiblioteca;
+	private ArrayList<Obra> lista;
+	private End enderecoBiblioteca;
 
 	public Biblioteca() {
 		super();
 	}
 
-	public Biblioteca(String nome, ArrayList<Obra> obras, Endereco enderecoBiblioteca) {
+	public Biblioteca(String nome, ArrayList<Obra> lista, End enderecoBiblioteca) {
 		super();
 		this.nome = nome;
-		this.obras = obras;
+		this.lista = lista;
 		this.enderecoBiblioteca = enderecoBiblioteca;
 	}
 
@@ -37,28 +39,26 @@ public class Biblioteca {
 	}
 
 	public ArrayList<Obra> getObras() {
-		return obras;
+		return lista;
 	}
 
 	public void setObras(ArrayList<Obra> obras) {
-		this.obras = obras;
+		this.lista = obras;
 	}
 
-	public Endereco getEnderecoBiblioteca() {
+	public End getEnderecoBiblioteca() {
 		return enderecoBiblioteca;
 	}
 
-	public void setEnderecoBiblioteca(Endereco enderecoBiblioteca) {
+	public void setEnderecoBiblioteca(End enderecoBiblioteca) {
 		this.enderecoBiblioteca = enderecoBiblioteca;
 	}
 
 	public void calcularQuantidadeObras() {
-
 		System.out.println("A biblioteca possui " + this.getObras().size() + " obras.\n");
 	}
 
-	public void identificarObraMaisAntiga() throws BibliotecaException {
-
+	public void MaisAntiga() throws BibliotecaException {
 		if (this.getObras() != null && !this.getObras().isEmpty()) {
 			int indice = -1;
 			int maiorAno = this.getObras().get(0).getAno();
@@ -74,13 +74,24 @@ public class Biblioteca {
 		}
 	}
 
-	public void identificarAutorMaisNovo() throws BibliotecaException {
+	public void maisNovo() throws BibliotecaException {
 		if (this.getObras() != null && !this.getObras().isEmpty()) {
 			int indice = 0;
-			int menorIdade = this.getObras().get(0).getEscritor().calcularIdade();
+			Obra obraAtual = this.getObras().get(0);
+
+			// Calcula a idade do autor
+			LocalDate dataAtual = LocalDate.now();
+			int menorIdade = Period.between(obraAtual.getEscritor().getDataNascimento(), dataAtual).getYears();
+
 			for (int i = 1; i < this.getObras().size(); i++) {
-				if (this.getObras().get(i).getEscritor().calcularIdade() < menorIdade) {
-					menorIdade = this.getObras().get(i).getEscritor().calcularIdade();
+				obraAtual = this.getObras().get(i);
+
+				// Calcula a idade do autor
+				int idadeAutorAtual = Period.between(obraAtual.getEscritor().getDataNascimento(), dataAtual).getYears();
+
+				if (idadeAutorAtual < menorIdade) {
+					// Calcula a idade do autor e atribui como a menor
+					menorIdade = Period.between(obraAtual.getEscritor().getDataNascimento(), dataAtual).getYears();
 					indice = i;
 				}
 			}

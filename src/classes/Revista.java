@@ -1,4 +1,4 @@
-package entidade;
+package classes;
 
 /**
  * Representa uma revista na biblioteca.

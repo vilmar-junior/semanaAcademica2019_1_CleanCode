@@ -6,12 +6,12 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import entidade.Autor;
-import entidade.Biblioteca;
-import entidade.Endereco;
-import entidade.Livro;
-import entidade.Obra;
-import entidade.Revista;
+import classes.Autor;
+import classes.Biblioteca;
+import classes.End;
+import classes.Obra;
+import classes.Revista;
+import classes.livro;
 import excecao.BibliotecaException;
 
 /**
@@ -23,12 +23,9 @@ import excecao.BibliotecaException;
  */
 public class Menu {
 	// Constantes com as opcoes de menu
-	private static final int OPCAO_MENU_CADASTRAR_LIVRO = 1;
-	private static final int OPCAO_MENU_CADASTRAR_REVISTA = 2;
-	private static final int OPCAO_MENU_CALCULAR_QUANTIDADE_OBRAS = 3;
-	private static final int OPCAO_MENU_IDENTIFICAR_OBRA_MAIS_ANTIGA = 4;
-	private static final int OPCAO_MENU_IDENTIFICAR_AUTOR_MAIS_NOVO = 5;
-	private static final int OPCAO_MENU_SAIR = 6;
+	private static final int opcaoMenuCadastrarLivro = 1;
+	private static final int opcaoMenuCadastrarRevista = 2;
+	private static final int opcaoMenuCalcularQuantidadeObras = 3;
 
 	// Atributos
 	private Scanner teclado = new Scanner(System.in);
@@ -39,11 +36,11 @@ public class Menu {
 		this.mostrarOpcoesMenu();
 
 		int opcao = Integer.parseInt(teclado.next());
-		while (opcao != OPCAO_MENU_SAIR) {
+		while (opcao != 6) {// opção "SAIR"
 			switch (opcao) {
-			case OPCAO_MENU_CADASTRAR_LIVRO: {
+			case opcaoMenuCadastrarLivro: {
 				try {
-					Livro novoLivro = cadastrarLivro();
+					livro novoLivro = cadastrarLivro();
 					cadastrarObra(novoLivro);
 				} catch (BibliotecaException e) {
 					System.out.println("Deu erro! Causa: " + e.getMessage() + "\n");
@@ -51,7 +48,7 @@ public class Menu {
 
 				break;
 			}
-			case OPCAO_MENU_CADASTRAR_REVISTA: {
+			case opcaoMenuCadastrarRevista: {
 				try {
 					Revista novaRevista = cadastrarRevista();
 					cadastrarObra(novaRevista);
@@ -61,21 +58,21 @@ public class Menu {
 
 				break;
 			}
-			case OPCAO_MENU_CALCULAR_QUANTIDADE_OBRAS: {
+			case opcaoMenuCalcularQuantidadeObras: {
 				biblio.calcularQuantidadeObras();
 				break;
 			}
-			case OPCAO_MENU_IDENTIFICAR_OBRA_MAIS_ANTIGA: {
+			case 4: {// opção "Identificar obra mais antiga"
 				try {
-					biblio.identificarObraMaisAntiga();
+					biblio.MaisAntiga();
 				} catch (BibliotecaException e) {
 					System.out.println("Deu erro! Causa: " + e.getMessage() + "\n");
 				}
 				break;
 			}
-			case OPCAO_MENU_IDENTIFICAR_AUTOR_MAIS_NOVO: {
+			case 5: {// opção "Identificar autor mais novo"
 				try {
-					biblio.identificarAutorMaisNovo();
+					biblio.maisNovo();
 				} catch (BibliotecaException e) {
 					System.out.println("Deu erro! Causa: " + e.getMessage() + "\n");
 				}
@@ -97,12 +94,12 @@ public class Menu {
 	private void mostrarOpcoesMenu() {
 		System.out.println("Biblioteca");
 		System.out.println("\nOpções:");
-		System.out.println(OPCAO_MENU_CADASTRAR_LIVRO + " - Cadastrar livro");
-		System.out.println(OPCAO_MENU_CADASTRAR_REVISTA + " - Cadastrar revista");
-		System.out.println(OPCAO_MENU_CALCULAR_QUANTIDADE_OBRAS + " - Calcular quantidade de obras");
-		System.out.println(OPCAO_MENU_IDENTIFICAR_OBRA_MAIS_ANTIGA + " - Identificar a obra mais antiga");
-		System.out.println(OPCAO_MENU_IDENTIFICAR_AUTOR_MAIS_NOVO + " - Identificar o autor mais novo");
-		System.out.println(OPCAO_MENU_SAIR + " - Sair");
+		System.out.println(opcaoMenuCadastrarLivro + " - Cadastrar livro");
+		System.out.println(opcaoMenuCadastrarRevista + " - Cadastrar revista");
+		System.out.println(opcaoMenuCalcularQuantidadeObras + " - Calcular quantidade de obras");
+		System.out.println(4 + " - Identificar a obra mais antiga");
+		System.out.println(5 + " - Identificar o autor mais novo");
+		System.out.println(6 + " - Sair");
 		System.out.print("\nDigite a Opção: ");
 	}
 
@@ -137,10 +134,10 @@ public class Menu {
 		return novaRevista;
 	}
 
-	private Livro cadastrarLivro() throws BibliotecaException {
+	private livro cadastrarLivro() throws BibliotecaException {
 		teclado.nextLine();
 
-		Livro novoLivro = null;
+		livro novoLivro = null;
 		int edicao = -1;
 		int ano = -1;
 
@@ -159,7 +156,7 @@ public class Menu {
 
 		Autor autor = cadastrarAutor();
 
-		novoLivro = new Livro(titulo, edicao, ano, autor);
+		novoLivro = new livro(titulo, edicao, ano, autor);
 		return novoLivro;
 	}
 
@@ -180,13 +177,13 @@ public class Menu {
 			throw new BibliotecaException("'Data de nascimento' deve ser informada no padrão (dd/mm/aaaa).", e);
 		}
 
-		Endereco endereco = cadastrarEndereco();
+		End endereco = cadastrarEndereco();
 
 		novoAutor = new Autor(nome, dataNascimento, endereco);
 		return novoAutor;
 	}
 
-	private Endereco cadastrarEndereco() throws BibliotecaException {
+	private End cadastrarEndereco() throws BibliotecaException {
 		int numero = -1;
 
 		System.out.print("\nDigite o nome da rua do endereço do autor: ");
@@ -208,7 +205,7 @@ public class Menu {
 		System.out.print("\nDigite o nome do estado do endereço do autor: ");
 		String estado = teclado.nextLine();
 
-		return new Endereco(rua, numero, bairro, cidade, estado);
+		return new End(rua, numero, bairro, cidade, estado);
 	}
 
 	private void cadastrarObra(Obra novaObra) {
@@ -219,13 +216,13 @@ public class Menu {
 
 	private static Biblioteca criarBiblioteca() {
 		// Endereços Autores
-		Endereco end1 = new Endereco("Rua dos Figos", 100, "Ingleses", "Florianopolis", "Santa Catarina");
-		Endereco end2 = new Endereco("Rua das Laranjas", 200, "Aririú", "Palhoca", "Santa Catarina");
-		Endereco end3 = new Endereco("Rua das Uvas", 300, "Pedra Branca", "Palhoca", "Santa Catarina");
-		Endereco end4 = new Endereco("Rua das Melancias", 400, "Estreito", "Florianopolis", "Santa Catarina");
+		End end1 = new End("Rua dos Figos", 100, "Ingleses", "Florianopolis", "Santa Catarina");
+		End end2 = new End("Rua das Laranjas", 200, "Aririú", "Palhoca", "Santa Catarina");
+		End end3 = new End("Rua das Uvas", 300, "Pedra Branca", "Palhoca", "Santa Catarina");
+		End end4 = new End("Rua das Melancias", 400, "Estreito", "Florianopolis", "Santa Catarina");
 
 		// Endereço da Biblioteca
-		Endereco end5 = new Endereco("Rua das Mangas", 600, "Centro", "Florianopolis", "Santa Catarina");
+		End end5 = new End("Rua das Mangas", 600, "Centro", "Florianopolis", "Santa Catarina");
 
 		DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -242,10 +239,10 @@ public class Menu {
 		Revista rev4 = new Revista("Super Interessante", 100, 2010, autor4, 30);
 
 		// Livros
-		Livro livro1 = new Livro("Brejo das Almas", 8, 1983, autor1);
-		Livro livro2 = new Livro("Quincas Borba", 1, 1892, autor2);
-		Livro livro3 = new Livro("Colar de Carolina", 3, 1934, autor3);
-		Livro livro4 = new Livro("Os Condenados", 7, 1941, autor4);
+		livro livro1 = new livro("Brejo das Almas", 8, 1983, autor1);
+		livro livro2 = new livro("Quincas Borba", 1, 1892, autor2);
+		livro livro3 = new livro("Colar de Carolina", 3, 1934, autor3);
+		livro livro4 = new livro("Os Condenados", 7, 1941, autor4);
 
 		ArrayList<Obra> obras = new ArrayList<Obra>();// { rev1, rev2, rev3, rev4, livro1, livro2, livro3, livro4 };
 		obras.add(rev1);

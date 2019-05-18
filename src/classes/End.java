@@ -1,4 +1,4 @@
-package entidade;
+package classes;
 
 /**
  * Representa o endereço de um autor ou uma biblioteca.
@@ -7,7 +7,7 @@ package entidade;
  * @author Vilmar César Pereira Júnior
  *
  */
-public class Endereco {
+public class End {
 
 	private String rua;
 	private int numero;
@@ -15,7 +15,7 @@ public class Endereco {
 	private String cidade;
 	private String estado;
 
-	public Endereco(String rua, int numero, String bairro, String cidade, String estado) {
+	public End(String rua, int numero, String bairro, String cidade, String estado) {
 		super();
 		this.rua = rua;
 		this.numero = numero;

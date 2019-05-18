@@ -1,4 +1,4 @@
-package entidade;
+package classes;
 
 /**
  * Representa um livro na biblioteca.
@@ -7,9 +7,9 @@ package entidade;
  * @author Vilmar César Pereira Júnior
  *
  */
-public class Livro extends Obra {
+public class livro extends Obra {
 
-	public Livro(String titulo, int edicao, int ano, Autor escritor) {
+	public livro(String titulo, int edicao, int ano, Autor escritor) {
 		super(titulo, edicao, ano, escritor);
 	}
 }
